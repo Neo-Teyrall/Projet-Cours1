@@ -19,6 +19,7 @@ class Atom:
         self.__creat_points()
 
 
+
     def __creat_points(self) -> None:
         self.points = sphere.calc_points(self.nb_points,self.position)
 
@@ -38,9 +39,13 @@ class Atom:
         self.voisins = tmp_voisins
         print("apres nb voisin = {}           ".format(len(self.voisins)),end = '')
 
-    def calc_accesibility():
+
+    def calc_accesibility(self):
+        accessibility = 0 
         return accessibility
         pass
+
+
     def __del__(self):
        # print("free atom")
         pass

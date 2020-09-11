@@ -2,7 +2,7 @@ import sys
 import math
 import vector
 from vector import Vector3
-
+from point import Point
 
 def calc_points(number_points : int, position : Vector3, angle = None):
     """reprise de l'algoryhtme de sphère de saff copié et modifié depuis le
@@ -23,7 +23,7 @@ def calc_points(number_points : int, position : Vector3, angle = None):
         else:
             phi += 3.6 / math.sqrt(N * (1 - h * h))
 
-        points.append(Vector3(X = math.sin(phi) * math.sin(theta),
+        points.append(Point(X = math.sin(phi) * math.sin(theta),
                               Y = math.cos(phi) * math.sin(theta),
                               Z = -math.cos(theta)) + position)
         phi %= 2*math.pi
