@@ -1,6 +1,4 @@
 import acide_amine
-import Bio
-import Bio.PDB
 import re
 class Protein:
     """protein """
@@ -13,9 +11,10 @@ class Protein:
         self.load_protein(pdb_file)
         self.accessibility  = 0 
         self.voisin_organisation()
+        self.calc_accesibility()
         pass
 
-    
+
     def load_protein(self, pdb_file : str) -> None:
         """charge la proteine"""
         AAindex = -1
@@ -63,7 +62,7 @@ class Protein:
         pass
 
 
-    def calc_accesibility():
+    def calc_accesibility(self):
         for i in self.acide_amines:
            self.accessibility +=  i.calc_accesibility()
 
