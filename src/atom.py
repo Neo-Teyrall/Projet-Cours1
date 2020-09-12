@@ -9,7 +9,8 @@ class Atom:
     """Description"""
     nb_points = 96
     voisin_rayon = 5
-    def __init__(self,self_aa,position :  Vector3):
+    graph_d = 0.5
+    def __init__(self,self_aa,position :  Vector3, graph = False):
         protein.Protein.Prot.atoms.append(self)
         self.self_aa = self_aa
         self.self_aa.atoms.append(self)
@@ -17,13 +18,19 @@ class Atom:
         self.voisins = []
         self.points = []
         self.__creat_points()
-
+        if graph : 
+            self.__make_graph()
 
 
     def __creat_points(self) -> None:
         self.points = sphere.calc_points(self.nb_points,self.position)
 
-        
+    def __make_graph():
+        for i, ipoint in enumerate(self.points) :
+            for j , jpoint in enumerate(self.points[i+1:]):
+                d =  ipoint.dist_to(jpoint)
+                if d < 0.5:
+                    ipoint.connect(jpoint)
     def get_all_voisin(self) -> None:
         self.voisins = copy.copy(protein.Protein.Prot.atoms)
         self.voisins.remove(self)
