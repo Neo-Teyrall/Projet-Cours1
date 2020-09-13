@@ -63,9 +63,10 @@ class Protein:
         pass
 
 
-    def calc_accesibility():
+    def calc_accesibility(self):
         for i in self.acide_amines:
            self.accessibility +=  i.calc_accesibility()
+        return self.accessibility / len(self.acide_amines)
 
 
     def __del__(self):

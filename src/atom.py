@@ -8,24 +8,37 @@ import time
 class Atom:
     """Description"""
     nb_points = 96
-    voisin_rayon = 5
-    def __init__(self,self_aa,position :  Vector3):
+    voisin_rayon = 4*10**-10
+    dict_vdw = { "H" : 1.20,
+                 "O" : 1.52,
+                 "C" : 1.70,
+                 "N" : 1.55,
+                 "P" : 1.80,
+                 "F" : 1.47
+                 }
+    def __init__(self,self_aa,position :  Vector3,a_type = 'C'):
         protein.Protein.Prot.atoms.append(self)
         self.self_aa = self_aa
         self.self_aa.atoms.append(self)
         self.position = position
         self.voisins = []
         self.points = []
+        self.accessibility = 0
+        self.rayon = 1 * 10**-10
+        self.a_type = a_type
         self.__creat_points()
 
 
     def __creat_points(self) -> None:
-        self.points = sphere.calc_points(self.nb_points,self.position)
+        self.points = sphere.calc_points(self.nb_points,self.position,self.rayon)
 
         
     def get_all_voisin(self) -> None:
         self.voisins = copy.copy(protein.Protein.Prot.atoms)
         self.voisins.remove(self)
+
+    def set_rayon(self):
+        self.rayon = self.rayon * dict_vdw[self.a_type] + dict_vdw["O"]
 
 
     def calc_voisin(self) -> None:
@@ -38,9 +51,20 @@ class Atom:
         self.voisins = tmp_voisins
         print("apres nb voisin = {}           ".format(len(self.voisins)),end = '')
 
-    def calc_accesibility():
-        return accessibility
-        pass
+    def calc_accesibility(self):
+        access = 0
+        for point in self.points:
+            for voisin in self.voisins:
+                dist = voisin.position.dist_to(point)
+                #print("distance = ", dist, end = " ")
+                if dist < voisin.voisin_rayon:
+                    access += 1
+                    break
+        print("access = ", access, end =" ")        
+        access = 1 - (access/self.nb_points)
+        print("access = ", access)
+        return access
+
     def __del__(self):
        # print("free atom")
         pass

@@ -15,14 +15,14 @@ class AcideAmine:
         for i, i_atom in enumerate(list_atoms):
             new_atom = atom.Atom(self,Vector3(X = i_atom["x"],
                                               Y = i_atom["y"],
-                                              Z = i_atom["z"]))
+                                              Z = i_atom["z"]),
+                                 i_atom["Atype"])
             self.atoms.append(new_atom)
         
     def calc_accesibility(self):
         for i in self.atoms :
             self.accessibility += i.calc_accesibility()
-        return self.accessibility    
-        pass
+        return self.accessibility / len(self.atoms)   
 
 
     def __del__(self):
