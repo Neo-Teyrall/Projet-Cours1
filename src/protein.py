@@ -95,7 +95,10 @@ class Protein:
         for i, acide_amine in enumerate(self.acide_amines):
             print("\r {} / {}".format(i,len(self.acide_amines)),end = "")
             self.accessibility +=  acide_amine.calc_accesibility()
-        return self.accessibility / len(self.acide_amines)
+
+        acc = self.accessibility / len(self.acide_amines)
+        print("final access", acc)
+        return acc
 
 
     def __del__(self):

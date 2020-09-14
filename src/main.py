@@ -7,6 +7,4 @@ if __name__ == "__main__" :
     #TH.sema = th.Semaphore(20)
     print("lancement du programe")
     prot = protein.Protein("../data/4yu3.pdb")
-    access = prot.calc_accesibility()
-    print("final access", access)
     pass
