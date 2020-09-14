@@ -18,9 +18,7 @@ class AcideAmine:
     def __add_atoms(self,list_atoms):
         """Ajoute tout les atome de l'acide aminé"""
         for i, i_atom in enumerate(list_atoms):
-            new_atom = atom.Atom(self,Vector3(X = i_atom["x"],
-                                              Y = i_atom["y"],
-                                              Z = i_atom["z"]))
+            new_atom = atom.Atom(self,i_atom)
             self.atoms.append(new_atom)
 
 
@@ -29,10 +27,15 @@ class AcideAmine:
         for i in self.atoms :
             self.accessibility += i.calc_accesibility()
 
-        return self.accessibility    
+        return self.accessibility
         pass
 
 
     def __del__(self):
         #print("free AcideAmine")
         pass
+
+
+if __name__ == "__main__" :
+    
+    pass

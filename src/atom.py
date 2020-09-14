@@ -3,25 +3,26 @@ from vector import Vector3
 import copy
 import time
 import math
+from info import Info
 from point import Point
 # from para import TH
 # import threading as th 
 
 class Atom:
     """Atom résolue dont l'occupation sphérique est résolue par la des points positionner pseudo uniformément sur sa surface."""
-    nb_points = 96                         # nombre de point composant la sphere
+    nb_points = 100                         # nombre de point composant la sphere
     voisin_rayon = 5                   # rayon pour déterminer les atoms voisins
     graph_d = 0.5          # rayon pour déterminer les point de la sphere voisin
-    def __init__(self,self_aa, position :  Vector3, graph = True, local = False):
+    def __init__(self,self_aa, info, graph = True, local = False):
         if not local:                  # condition pour tester la class en local
             protein.Protein.Prot.atoms.append(self)                    # protein
             self.self_aa = self_aa              # acide amine que l'atom compose
             self.self_aa.atoms.append(self) 
 
-        self.position = position
+        self.position = Vector3(info["x"], info["y"], info["z"])
         self.voisins = []                                     # voisin de l'atom
         self.points = []                                    # point de la sphere
-        self.rayon = 1                                 # rayon de l'atom + sonde
+        self.rayon = Info.rayon_vdw[info["Atom"]] + Info.rayonH20      # rayon de l'atom + sonde
         # t = th.Thread(target = self.__t)
         # TH.sema.acquire()
         # t.start()
@@ -75,7 +76,7 @@ class Atom:
         for i, ipoint in enumerate(self.points) :
             for j , jpoint in enumerate(self.points[i+1:]):
                 d =  ipoint.dist_to(jpoint)
-                if d < 0.5:
+                if d < (1.4):
                     ipoint.connect(jpoint)
 
 
@@ -140,5 +141,8 @@ class Atom:
 
 if __name__ == "__main__" :
     # from acide_amine import AcideAmine
-    p = Atom(None, Vector3(0,0,0), local = True)
+    p = Atom(None, {"x":0, "y":0,"z":0,"Atom":'P'}, local = True)
     p.print_atom()
+    # print("distance : {} and {}".format(p.points[1].dist_to(p.points[7]),
+    #                                     p.points[1].dist_to(p.points[8])))
+
