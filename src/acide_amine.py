@@ -16,7 +16,7 @@ class AcideAmine:
             new_atom = atom.Atom(self,Vector3(X = i_atom["x"],
                                               Y = i_atom["y"],
                                               Z = i_atom["z"]),
-                                 i_atom["Atype"])
+                                 i_atom["Atype"] )
             self.atoms.append(new_atom)
         
     def calc_accesibility(self):

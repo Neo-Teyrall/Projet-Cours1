@@ -8,14 +8,8 @@ import time
 class Atom:
     """Description"""
     nb_points = 96
-    voisin_rayon = 4*10**-10
-    dict_vdw = { "H" : 1.20,
-                 "O" : 1.52,
-                 "C" : 1.70,
-                 "N" : 1.55,
-                 "P" : 1.80,
-                 "F" : 1.47
-                 }
+    voisin_rayon = 3
+
     def __init__(self,self_aa,position :  Vector3,a_type = 'C'):
         protein.Protein.Prot.atoms.append(self)
         self.self_aa = self_aa
@@ -24,13 +18,14 @@ class Atom:
         self.voisins = []
         self.points = []
         self.accessibility = 0
-        self.rayon = 1 * 10**-10
+        self.rayon = 1
         self.a_type = a_type
         self.__creat_points()
+        self.set_rayon()
 
 
     def __creat_points(self) -> None:
-        self.points = sphere.calc_points(self.nb_points,self.position,self.rayon)
+        self.points = sphere.calc_points(self.nb_points,self.position,None,self.rayon)
 
         
     def get_all_voisin(self) -> None:
@@ -38,14 +33,24 @@ class Atom:
         self.voisins.remove(self)
 
     def set_rayon(self):
-        self.rayon = self.rayon * dict_vdw[self.a_type] + dict_vdw["O"]
+        dict_vdw = { "H" : 1.20,
+                 "O" : 1.52,
+                 "C" : 1.70,
+                 "N" : 1.55,
+                 "P" : 1.80,
+                 "F" : 1.47,
+                 "S" : 1.80
+                 }
+        self.rayon = self.rayon * dict_vdw[self.a_type[0]] + dict_vdw["O"]
 
 
     def calc_voisin(self) -> None:
         tmp_voisins = copy.copy(self.voisins)
         z = len(self.voisins)
         for i in range(len(self.voisins)):
-            if self.position.dist_to(self.voisins[i].position)  > Atom.voisin_rayon :
+            #print("add rayon :",(self.voisins[i].rayon + self.rayon) )
+            #print("dist entre atome", self.position.dist_to(self.voisins[i].position))
+            if self.position.dist_to(self.voisins[i].position)  > (self.voisins[i].rayon + self.rayon) :
                 tmp_voisins.remove(self.voisins[i])
                 self.voisins[i].voisins.remove(self)
         self.voisins = tmp_voisins
@@ -57,12 +62,15 @@ class Atom:
             for voisin in self.voisins:
                 dist = voisin.position.dist_to(point)
                 #print("distance = ", dist, end = " ")
-                if dist < voisin.voisin_rayon:
+                #print("rayon =", voisin.rayon)
+                if (dist < voisin.rayon):
+                    #print("done")
                     access += 1
-                    break
-        print("access = ", access, end =" ")        
-        access = 1 - (access/self.nb_points)
-        print("access = ", access)
+                    continue
+        #if access == self.nb_points:
+        #    print("access = ", access, end =" ")
+        access = 1.0 - (access/self.nb_points)
+        
         return access
 
     def __del__(self):

@@ -23,12 +23,16 @@ def calc_points(number_points : int, position : Vector3, angle = None, rayon = 1
         else:
             phi += 3.6 / math.sqrt(N * (1 - h * h))
 
-        #print(phi)
         points.append(Vector3(X = math.sin(phi) * math.sin(theta),
                               Y = math.cos(phi) * math.sin(theta),
-                              Z = -math.cos(theta))*rayon + position)
+                              Z = -math.cos(theta)) + position)
         phi %= 2*math.pi
-
+    with open("it_works.pdb", "a")as filout:
+        for i, point in enumerate(points) :
+            p = (point)
+            filout.write("{:6s}{:5d}{:^4s}{:1s}{:3s}{:1s}{:4d}{:1s}{:8.3f}{:8.3f}{:8.3f}\n"
+                          .format("HETATM", i, "O", "", "HOH", "A", i, "",
+                          p.x, p.y, p.z))
     return points
 
 
