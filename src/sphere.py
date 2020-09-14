@@ -27,7 +27,7 @@ def calc_points(number_points : int, position : Vector3, angle = None, rayon = 1
                               Y = math.cos(phi) * math.sin(theta),
                               Z = -math.cos(theta)) + position)
         phi %= 2*math.pi
-    with open("it_works.pdb", "a")as filout:
+    with open("../Resulats/it_works.pdb", "a")as filout:
         for i, point in enumerate(points) :
             p = (point)
             filout.write("{:6s}{:5d}{:^4s}{:1s}{:3s}{:1s}{:4d}{:1s}{:8.3f}{:8.3f}{:8.3f}\n"
