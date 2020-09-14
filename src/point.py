@@ -14,9 +14,11 @@ class Point():
 
     def connect(self, voisin) -> None:
         if voisin == self:
-            return 
+            return
+
         if voisin in self.voisins:
             return
+
         self.voisins.append(voisin)
         voisin.connect(self)
 
@@ -24,8 +26,10 @@ class Point():
     def dist_to(self, point):
         if isinstance(point, Vector3):
             return self.position.dist_to(point)
+
         elif isinstance(point, Point):
             return self.position.dist_to(point.position)
+
         else:
             traceback.print_stack()
             exit("ERROR : Impossible to evaluate the distance withe the {} Only Vecteur3, Point".format(type(point)))
@@ -43,8 +47,6 @@ class Point():
 
 
 if __name__ == "__main__" :
-    print(type(1))
+    
     a = Point(1,1,1)
     a.dist_to(2)
-   
-    pass
