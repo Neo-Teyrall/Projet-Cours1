@@ -1,0 +1,11 @@
+name: projet-surface
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - argparse
+  - biopython
+  - matplotlib
+  - scipy
+  - pip :
+    - antiprism_python
