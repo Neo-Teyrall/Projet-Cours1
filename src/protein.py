@@ -6,33 +6,36 @@ from  datetime import datetime
 class Protein:
     """protein """
     Prot = None
-
+    #filout = None
 
     def __init__(self, pdb_file :str):
         Protein.Prot = self
         self.acide_amines = []
         self.atoms = []
         self.Atypes = []
+        self.filout = open("../Results/out_AA.txt", "w")
         self.load_protein(pdb_file)
         print("all atom type = : \n ", self.Atypes)
-        self.accessibility  = 0
+        self.accessibility_rel  = 0
+        self.accessibility_num = 0
         self.voisin_organisation()
         self.calc_accesibility()
         
+       
         pass
 
 
     def load_protein(self, pdb_file : str) -> None:
-        """charge la proteine"""
+        """Charge la proteine"""
         AAindex = -1
         liste_Atom_AA = []
-        print("\ncreation de la protein")
+        print("\ncréation de la protéine")
         t_i  = datetime.now()
         with open(pdb_file,"r") as fillin:
             lines = fillin.readlines()
 
             for i, line in enumerate(lines):
-                print("\r {} / {}".format(i,len(lines)),end = "")
+                print("\r {} / {}".format(i+1,len(lines)),end = "")
 
                 if not re.match("^ATOM",line) :
                     continue
@@ -52,20 +55,25 @@ class Protein:
 
                 liste_Atom_AA.append(atom)
 
-        print(" temp = {}".format(datetime.now()-t_i))
+        print(" temps = {}".format(datetime.now()-t_i))
 
 
     def voisin_organisation(self):
-        """calcule des Atom les plus proche entre eux (voisin) """
-        print("\n copy des voisin")
+        """Calcule des atomes les plus proches entre eux (voisins) """
+        print("\n copie des voisins")
+        t_i  = datetime.now()
         for i,atom in enumerate(self.atoms):
-            print("\r {}/{}     ".format(i,len(self.atoms)),end="")
+            print("\r {}/{}     ".format(i+1,len(self.atoms)),end="")
             atom.get_all_voisin()
+        print(" temps = {}".format(datetime.now()-t_i))
 
-        print("\n evaluation des voisin")
+        print("\n évaluation des voisins")
+        t_i  = datetime.now()
         for i, atom in enumerate(self.atoms):
-            print("\r {}/{}     ".format(i,len(self.atoms)),end="")
+            print("\r {}/{}     ".format(i+1,len(self.atoms)),end="")
             atom.calc_voisin()
+
+        print(" temps = {}".format(datetime.now()-t_i))
 
 
     def __parse(self, line : str) -> list:
@@ -91,17 +99,29 @@ class Protein:
 
 
     def calc_accesibility(self):
-        print("\n  calc acces : ") 
+        print("\n  calc access : ")
+        t_i  = datetime.now()
+        area = 0
         for i, acide_amine in enumerate(self.acide_amines):
-            print("\r {} / {}".format(i,len(self.acide_amines)),end = "")
-            self.accessibility +=  acide_amine.calc_accesibility()
+            print("\r {} / {}".format(i+1,len(self.acide_amines)),end = "")
+            access_rel, access_num, area_temp = acide_amine.calc_accesibility()
+            self.accessibility_rel += access_rel
+            self.accessibility_num += access_num
+            area += area_temp
 
-        acc = self.accessibility / len(self.acide_amines)
-        print("final access", acc)
-        return acc
+        print(" temps = {}".format(datetime.now()-t_i))
+        acc_rel = self.accessibility_rel / len(self.acide_amines)
+        acc_rel_bis = self.accessibility_num / area
+        print("\nfinal access %", acc_rel, acc_rel_bis)
+        print("final access bis", self.accessibility_num)
+        
+        #self.filout.close()
+
+        return (acc_rel, self.accessibility_num)
 
 
     def __del__(self):
+        Protein.Prot.filout.close()
         Protein.Prot = None
         print("free protein")
         pass
