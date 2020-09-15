@@ -1,26 +1,27 @@
-import protein
-from vector import Vector3
 import copy
-import time
 import math
+import time
+
 from info import Info
-from point import Point
 from para import TH
+from point import Point
+import protein
 import threading as th 
+from vector import Vector3
 
 class Atom:
 
-    """Atome dont l'occupation sphérique est résolue par des points positionnés pseudo-uniformément sur sa surface."""
+    """
+    Atome dont l'occupation sphérique est résolue par des points 
+    positionnés pseudo-uniformément sur sa surface.
+    """
     nb_points = 100                       # nombre de points composant la sphère
-    voisin_rayon = 5                  # rayon pour déterminer les atomes voisins
     graph_d = 0.5        # rayon pour déterminer les points de la sphère voisine
     def __init__(self,self_aa, info, graph = True, local = False):
         if not local:                 # condition pour tester la classe en local
             protein.Protein.Prot.atoms.append(self)                   # protéine
             self.self_aa = self_aa        # acide aminé dont fait partie l'atome
-            #self.self_aa.atoms.append(self) 
 
-        self.call_access = 0                                              #DEBUG
         self.id = info["ATnum"]
         self.position = Vector3(info["x"], info["y"], info["z"])
         self.voisins = []                                   # voisins de l'atome
@@ -33,6 +34,7 @@ class Atom:
         self.__calc_points()
         #if graph : 
         #    self.__make_graph()
+
 
     #def __t(self):
         #print("tbegin")
@@ -84,7 +86,6 @@ class Atom:
                     ipoint.connect(jpoint)
 
 
-
     def get_all_voisin(self) -> None:
         """Récupère tous les atomes de la protéine et les assigne en tant que voisin"""
         self.voisins = copy.copy(protein.Protein.Prot.atoms)
@@ -107,9 +108,7 @@ class Atom:
 
     def calc_accesibility(self):
         """Calcule les accessibilités relatives (rel) et quantitatives (num) de l'atome"""
-        self.call_access += 1
         access_rel = 0
-        #print("nb voisin : ",len(self.voisins), self.id, "call access", self.call_access)
         for point in self.points:
             for voisin in self.voisins:
                 dist = voisin.position.dist_to(point.position)
@@ -119,8 +118,7 @@ class Atom:
 
         access_rel = 1.0 - (access_rel/self.nb_points)
         access_num = access_rel*self.area
-        return (access_rel,access_num,self.area)
-
+        return (access_num,self.area)
 
 
     def print_atom(self):
@@ -151,13 +149,8 @@ class Atom:
             print()
 
 
-    def __del__(self):
-        pass
-
 
 if __name__ == "__main__" :
     p = Atom(None, {"x":0, "y":0,"z":0,"Atom":'P'}, local = True)
     p.print_atom()
-    # print("distance : {} and {}".format(p.points[1].dist_to(p.points[7]),
-    #                                     p.points[1].dist_to(p.points[8])))
 

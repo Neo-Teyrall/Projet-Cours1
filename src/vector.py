@@ -1,14 +1,15 @@
 import math
 
 class Vector3():
-    "class de vecteur a trois dimmension"
 
+    """
+    Classe de vecteur à trois dimmensions
+    """
     def __init__(self,X=0,Y=0,Z=0, random = False):
-        """initialisation"""
+        """ initialisation """
         self.x = float(X)
         self.y = float(Y)
         self.z = float(Z)
-        pass
 
 
     def __str__(self):
@@ -51,6 +52,7 @@ class Vector3():
                            self.y * mul.y,
                            self.z * mul.z)
 
+
     def __floordiv__(self, fdiv):
         """ division   de vector 3 """
         if isinstance(fdiv, int) or isinstance(fdiv, float):
@@ -61,6 +63,7 @@ class Vector3():
             return Vector3(self.x // fdiv.x,
                            self.y // fdiv.y,
                            self.z // fdiv.z)
+
 
     def __truediv__(self, tdiv):
         """ division vraie de vector 3 """
@@ -89,9 +92,12 @@ class Vector3():
         return math.sqrt((self.x - point.x)**2
                          + (self.y - point.y)**2
                          + (self.z - point.z)**2 )
+
+
     def norm(self):
         "Calcule de la norm du vecteur3"
         return math.sqrt(self.x**2 + self.y**2 + self.z**2)
+
 
 
 if __name__ ==  "__main__":
@@ -106,5 +112,4 @@ if __name__ ==  "__main__":
     print("-", a - 1 )
     print("*", a * 2 )
     print("/", a / 2.26 )
-    pass
 
