@@ -63,7 +63,7 @@ class Vector3():
                            self.z // fdiv.z)
 
     def __truediv__(self, tdiv):
-        """ division vrais de vector 3 """
+        """ division vraie de vector 3 """
         
         if isinstance(tdiv, int) or isinstance(tdiv, float):
             return Vector3(self.x / tdiv,

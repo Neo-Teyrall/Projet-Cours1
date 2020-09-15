@@ -5,45 +5,47 @@ import time
 import math
 from info import Info
 from point import Point
-# from para import TH
-# import threading as th 
+from para import TH
+import threading as th 
 
 class Atom:
 
-    """Atom résolue dont l'occupation sphérique est résolue par la des points positionner pseudo uniformément sur sa surface."""
-    nb_points = 100                         # nombre de point composant la sphere
-    voisin_rayon = 5                   # rayon pour déterminer les atoms voisins
-    graph_d = 0.5          # rayon pour déterminer les point de la sphere voisin
+    """Atome dont l'occupation sphérique est résolue par des points positionnés pseudo-uniformément sur sa surface."""
+    nb_points = 100                       # nombre de points composant la sphère
+    voisin_rayon = 5                  # rayon pour déterminer les atomes voisins
+    graph_d = 0.5        # rayon pour déterminer les points de la sphère voisine
     def __init__(self,self_aa, info, graph = True, local = False):
-        if not local:                  # condition pour tester la class en local
-            protein.Protein.Prot.atoms.append(self)                    # protein
-            self.self_aa = self_aa              # acide amine que l'atom compose
-            self.self_aa.atoms.append(self) 
+        if not local:                 # condition pour tester la classe en local
+            protein.Protein.Prot.atoms.append(self)                   # protéine
+            self.self_aa = self_aa        # acide aminé dont fait partie l'atome
+            #self.self_aa.atoms.append(self) 
 
+        self.call_access = 0                                              #DEBUG
+        self.id = info["ATnum"]
         self.position = Vector3(info["x"], info["y"], info["z"])
-        self.voisins = []                                     # voisin de l'atom
-        self.points = []                                    # point de la sphere
-        self.rayon = Info.rayon_vdw[info["Atom"]] + Info.rayonH20      # rayon de l'atom + sonde
-        self.accessibility = 0 
-        # t = th.Thread(target = self.__t)
-        # TH.sema.acquire()
-        # t.start()
+        self.voisins = []                                   # voisins de l'atome
+        self.points = []                                   # points de la sphère
+        self.rayon = Info.rayon_vdw[info["Atom"]] + Info.rayonH20      # rayon de l'atome + sonde
+        self.area = 4*math.pi*(self.rayon**2)                  # aire de l'atome
+        #t = th.Thread(target = self.__t)
+        #TH.sema.acquire()
+        #t.start()
         self.__calc_points()
-        if graph : 
-            self.__make_graph()
+        #if graph : 
+        #    self.__make_graph()
 
-    # def __t(self):
-    #     print("tbegin")
-    #     self.__calc_points() 
-    #     self.__make_graph()
-    #     print("tend")
-    #     TH.sema.release()
+    #def __t(self):
+        #print("tbegin")
+        #self.__calc_points() 
+        #self.__make_graph()
+        #print("tend")
+        #TH.sema.release()
 
 
     def __calc_points(self, angle = None):
-        """ calcule la posiiton des points de surface de l'atom
-        reprise de l'algoryhtme de sphère de saff copié et modifié depuis le
-        packet anti_lib_progs"""
+        """ Calcule la position des points de surface de l'atome.
+        Reprise de l'algorithme de création de sphère de saff,
+        copié et modifié depuis le packet anti_lib_progs (librairie antiprism)"""
         points = []
         use_angle = angle is not None
         if use_angle:
@@ -69,11 +71,12 @@ class Atom:
             new_point.position += self.position
             points.append(new_point)
             phi %= 2*math.pi
+
         self.points = points
 
 
     def __make_graph(self):
-        """création d'un graphe de point a la surface de la sphère  """
+        """Création d'un graphe de points à la surface de la sphère  """
         for i, ipoint in enumerate(self.points) :
             for j , jpoint in enumerate(self.points[i+1:]):
                 d =  ipoint.dist_to(jpoint)
@@ -83,14 +86,14 @@ class Atom:
 
 
     def get_all_voisin(self) -> None:
-        """récupère tout les atomes de la protéine et les assigne en tant que voisin"""
+        """Récupère tous les atomes de la protéine et les assigne en tant que voisin"""
         self.voisins = copy.copy(protein.Protein.Prot.atoms)
         self.voisins.remove(self)
 
 
     def calc_voisin(self) -> None:
-        """discrimine les voisin les plus éloigné afin de conserver uniquement
-        les voisin qui sont dans le voisinage de l'atome"""
+        """Discrimine les voisins les plus éloignés afin de conserver uniquement
+        les voisins qui sont dans le voisinage de l'atome"""
         tmp_voisins = copy.copy(self.voisins)
         z = len(self.voisins)
         for i in range(len(self.voisins)):
@@ -100,25 +103,23 @@ class Atom:
                 tmp_voisins.remove(self.voisins[i])
 
         self.voisins = tmp_voisins
-        #print("apres nb voisin = {}           ".format(len(self.voisins)),end = '')
 
 
     def calc_accesibility(self):
-        access = 0
+        """Calcule les accessibilités relatives (rel) et quantitatives (num) de l'atome"""
+        self.call_access += 1
+        access_rel = 0
+        #print("nb voisin : ",len(self.voisins), self.id, "call access", self.call_access)
         for point in self.points:
             for voisin in self.voisins:
                 dist = voisin.position.dist_to(point.position)
-                #print("distance = ", dist, end = " ")
-                #print("rayon =", voisin.rayon)
                 if (dist < voisin.rayon):
-                    #print("done")
-                    access += 1
-                    continue
-        #if access == self.nb_points:
-        #    print("access = ", access, end =" ")
-        access = 1.0 - (access/self.nb_points)
-        
-        return access
+                    access_rel += 1
+                    break
+
+        access_rel = 1.0 - (access_rel/self.nb_points)
+        access_num = access_rel*self.area
+        return (access_rel,access_num,self.area)
 
 
 

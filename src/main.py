@@ -1,10 +1,14 @@
 #! /usr/bin/python3.8
+import sys
+
+import check_file as cf
 import protein
 
 if __name__ == "__main__" :
     """TODO:: INFO """
     # para threading
-    #TH.sema = th.Semaphore(20)
+    # TH.sema = th.Semaphore(20)
     print("lancement du programe")
-    prot = protein.Protein("../data/4yu3.pdb")
+    filename = cf.verify_arg(sys.argv)
+    prot = protein.Protein(filename)
     pass

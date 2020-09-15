@@ -32,7 +32,7 @@ def calc_points(number_points : int, position : Vector3, angle = None, rayon = 1
     with open("../Resulats/it_works.pdb", "a")as filout:
         for i, point in enumerate(points) :
             p = (point)
-            filout.write("{:6s}{:5d}{:^4s}{:1s}{:3s}{:1s}{:4d}{:1s}{:8.3f}{:8.3f}{:8.3f}\n"
+            filout.write("{:6s}{:5d}{:^4s}{:1s}{:3s} {:1s}{:4d}{:>4s}{:8.3f}{:8.3f}{:8.3f}\n"
                           .format("HETATM", i, "O", "", "HOH", "A", i, "",
                           p.x, p.y, p.z))
     return points
