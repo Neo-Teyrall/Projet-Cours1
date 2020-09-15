@@ -10,5 +10,5 @@ if __name__ == "__main__" :
     # TH.sema = th.Semaphore(20)
     print("lancement du programe")
     filename = cf.verify_arg(sys.argv)
-    prot = protein.Protein(filename)
+    prot = protein.Protein(filename[1], filename[2])
     pass

@@ -8,12 +8,12 @@ class Protein:
     Prot = None
     #filout = None
 
-    def __init__(self, pdb_file :str):
+    def __init__(self, pdb_file :str, filename :str):
         Protein.Prot = self
         self.acide_amines = []
         self.atoms = []
         self.Atypes = []
-        self.filout = open("../Results/out_AA.txt", "w")
+        self.filout = open(filename, "w")
         self.load_protein(pdb_file)
         print("all atom type = : \n ", self.Atypes)
         self.accessibility_rel  = 0
@@ -113,7 +113,7 @@ class Protein:
         acc_rel = self.accessibility_rel / len(self.acide_amines)
         acc_rel_bis = self.accessibility_num / area
         print("\nfinal access %", acc_rel, acc_rel_bis)
-        print("final access bis", self.accessibility_num)
+        print("final access Å^2", self.accessibility_num)
         
         #self.filout.close()
 
