@@ -16,7 +16,7 @@ if __name__ == "__main__" :
     parser.add_argument('--file_out', type = str, 
                         help='an output file to store the results')
     parser.add_argument('--probe', type = float, 
-                        help='radius of the probe (Å)')
+                        help='radius of the probe (angströms)')
     args = parser.parse_args()
     cf.verify_arg(args.pdb_file)
 
