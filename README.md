@@ -1,19 +1,16 @@
 Author : Pretet Maël, Margerit William 
 
-# charger l'environement conda
+# Charger l'environnement conda
 
 $ conda env create -f env_projet-surface.yml
 $ conda activate  env_projet-surface
 
-# Lancer programe 
+# Lancer programme
 
 $ python path-to-src/main.py pdb-filepath 
 
-# info 
+# info
 $ python path-to-src/main.py -h 
-
-# output 
-output separator =  "\t" 
 
 # rapport
 ./doc/rapport.pdf
