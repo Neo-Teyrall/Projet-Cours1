@@ -15,7 +15,7 @@ class Protein:
         self.atoms = []
         self.Atypes = []
         self.filename = filename
-        self.chain_out = "{:3}{:>10}{:>10}{:>10}{:>10}\n".format("RES","backbone","sidechain","total","%")
+        self.chain_out = "{:3}{:>10}{:>10}{:>10}{:>10}\n\n".format("RES","backbone","sidechain","total","%")
         self.load_protein(pdb_file)
         print("all atom type = : \n ", self.Atypes)
         self.accessibility_num = 0
