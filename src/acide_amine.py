@@ -47,7 +47,6 @@ class AcideAmine:
                                                                                           self.accessibility_num - area_backbone,
                                                                                           self.accessibility_num,
                                                                                           self.accessibility_num/area)
-        #protein.Protein.Prot.filout.write("{:1}\t{:6.4f}\t{:10.4f}\n\n".format(self.res,self.accessibility_rel/len(self.atoms), self.accessibility_num))
         return (self.accessibility_num, area)
 
 
