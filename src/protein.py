@@ -51,6 +51,8 @@ class Protein:
 
                 liste_Atom_AA.append(atom)
 
+            acide_amine.AcideAmine(liste_Atom_AA)
+
         print(" temps = {}".format(datetime.now()-t_i))
 
 
