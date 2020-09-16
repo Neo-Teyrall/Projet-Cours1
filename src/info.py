@@ -1,14 +1,4 @@
 class Info:
-    # Non
-    rayon_atomique = {"C" : 0.70, # 
-                      "O" : 0.9,
-                      "H" : 0.25,
-                      "N" : 0.85,
-                      "S" : 1,
-                      "P" : 1,
-                      "Fe" : 1,
-                      "ZN" : 1}
-
 
     # Paul Arnaud, Brigitte Jamart, Jacques Bodiguel, Nicolas Brosse, Chimie
     # Organique 1er cycle/Licence, PCEM, Pharmacie, Cours, QCM et applications,
