@@ -4,7 +4,7 @@ import math
 class Vector3():
 
     """
-    Classe de vecteur à trois dimmensions
+    Classe de vecteur a trois dimmensions
     """
     def __init__(self, X=0, Y=0, Z=0, random=False):
         """ initialisation """

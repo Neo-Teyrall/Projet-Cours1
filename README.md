@@ -10,7 +10,13 @@ $ conda activate  env_projet-surface
 $ python path-to-src/main.py pdb-filepath 
 
 # info 
-$ python path-to-src /main.py -h 
+$ python path-to-src/main.py -h 
 
 # output 
-separator =  \t 
+output separator =  "\t" 
+
+# rapport
+./doc/rapport.pdf
+
+# documentation
+./doc/documentation/
