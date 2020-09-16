@@ -15,7 +15,7 @@ class Protein:
         self.atoms = []
         self.Atypes = []
         self.filename = filename
-        self.chain_out = "{:3}{:>10}{:>10}{:>10}{:>10}\n".format("RES","backbone","sidechain","total","%")
+        self.chain_out = "{:3}{:>10}{:>10}{:>10}{:>10}\n\n".format("RES","backbone","sidechain","total","%")
         self.load_protein(pdb_file)
         print("all atom type = : \n ", self.Atypes)
         self.accessibility_num = 0
@@ -50,6 +50,8 @@ class Protein:
                     liste_Atom_AA = []
 
                 liste_Atom_AA.append(atom)
+
+            acide_amine.AcideAmine(liste_Atom_AA)
 
         print(" temps = {}".format(datetime.now()-t_i))
 

@@ -15,7 +15,7 @@ class Atom:
     Atome dont l'occupation sphérique est résolue par des points 
     positionnés pseudo-uniformément sur sa surface.
     """
-    nb_points = 100                       # nombre de points composant la sphère
+    nb_points = 96                        # nombre de points composant la sphère
     graph_d = 0.5        # rayon pour déterminer les points de la sphère voisine
     def __init__(self,self_aa, info, graph = True, local = False):
         if not local:                 # condition pour tester la classe en local

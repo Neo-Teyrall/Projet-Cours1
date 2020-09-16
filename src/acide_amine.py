@@ -14,6 +14,7 @@ class AcideAmine:
         #self.accessibility_num = 0
         self.atoms = []
         self.res = ""
+        self.accessibility_num = 0
         self.__add_atoms(list_atomes)
         #TH.sema.release()
 
@@ -34,21 +35,19 @@ class AcideAmine:
         """Calcul l'accessibilité et la retourne"""
         area = 0
         area_backbone = 0
-        accessibility_num = 0
         for i,atom in enumerate(self.atoms) :
             access_num, area_temp = atom.calc_accesibility()
-            accessibility_num += access_num
+            self.accessibility_num += access_num
             area += area_temp
             if i in range(4):
                 area_backbone += access_num
 
         protein.Protein.Prot.chain_out += "{}{:10.3f}{:10.3f}{:10.3f}{:10.3f}\n\n".format(self.res,
                                                                                           area_backbone,
-                                                                                          accessibility_num - area_backbone,
-                                                                                          accessibility_num,
-                                                                                          accessibility_num/area)
-        #protein.Protein.Prot.filout.write("{:1}\t{:6.4f}\t{:10.4f}\n\n".format(self.res,self.accessibility_rel/len(self.atoms), self.accessibility_num))
-        return (accessibility_num, area)
+                                                                                          self.accessibility_num - area_backbone,
+                                                                                          self.accessibility_num,
+                                                                                          self.accessibility_num/area)
+        return (self.accessibility_num, area)
 
 
 
